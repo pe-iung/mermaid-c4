@@ -1,21 +1,113 @@
 classDiagram
-    Animal "1" <-- "*" Duck
-    Animal <|-- Fish
-    Animal <|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-        +String beakColor
-        +swim()
-        +quack()
+    User "1" <-- "*" Admin
+    User <|-- Tutor
+    User <|-- Student
+    User -- PersonalInformation
+    WebApp "1" <-- "1" Calendar
+    WebApp "1" <-- "*" Task
+    Calendar "1" <|-- "*" Event
+
+    WebApp <|-- User
+    WebApp <|-- Message
+
+    Event "1" <-- "*" Task
+
+    class WebApp {
+
     }
-    class Fish{
-        -int sizeInFeet
-        -canEat()
+
+    class User {
+        userId
+        email
+        password
+        personalInformation
+        signUp()
+        signIn()
+        forgotPassword()
+        getRole()
+        getMessages()
+        getCalendar()
+        getTasks()
+        getNotifications()
+        setNotifications()
+
+
     }
-    class Zebra{
-        +bool is_wild
-        +run()
+    class Admin{
+        setRole(userId,role)
+        getAllUsers()
+        assignATutorToAStudent(tutorUserId,studentgUserId)
+        unAssignATutorToAStudent(tutorUserId,studentgUserId)
+        revokeUserId(UserId)
     }
+
+    class Tutor{
+        listAllMyStudent()
+        createAnEvent()
+        createATask()
+        setGoals() //TODO should it be defined at Task level?
+        numberOfStudent()
+        isNotAcceptingMoreStudent()
+
+
+    }
+    class Student{
+        getMessages()
+        hasATutor()
+    }
+
+    class PersonalInformation{
+        firstName
+        lastName
+        phoneNumber
+        postalAdress
+        getPersonnalInformation()
+        setPersonnalInformation()
+    }
+
+    class Event{
+        participants
+        evantDate
+        linkToVisio
+        weeklyGoals
+        isUnread() //TODO to detect if notification is needed, is it ok ?
+        getWeeklyGoals()
+        setWeeklyGoals() //TODO should it be defined at tutor level?
+        getEventTasks()
+        setEventTasks() //TODO should it be defined at Task level?
+
+    }
+
+    class Calendar{
+        events
+    }
+
+    class Task {
+        name
+        ownerUserId
+        assignedByUserId
+        deadline
+        status
+        summary
+        isUnread()
+
+    }
+
+    class Room {
+        roomId
+        users
+        getUsers()
+        getMessages()
+    }
+
+    class Message {
+        messageId
+        expeditorUserId
+        destinationUserId
+        timeOfExpedition
+        object
+        body
+        isPinned()
+        isUnread()
+    }
+
