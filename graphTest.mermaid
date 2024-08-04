@@ -1,20 +1,15 @@
 classDiagram
-    User "1" <-- "*" Admin
+    Calendar "1" o-- "*" Event
+    User -- Calendar
+    Event "1" o-- "*" Task
+    User <|-- Admin
     User <|-- Tutor
     User <|-- Student
-    User -- PersonalInformation
-    WebApp "1" <-- "1" Calendar
-    WebApp "1" <-- "*" Task
-    Calendar "1" <|-- "*" Event
-
-    WebApp <|-- User
-    WebApp <|-- Message
-
-    Event "1" <-- "*" Task
-
-    class WebApp {
-
-    }
+    User *-- PersonalInformation
+    User "1" -- "*" Task
+    User "1" -- "*" RoomMessage
+    RoomMessage o-- Message
+    Event "1" *-- "*" Goal
 
     class User {
         userId
@@ -28,12 +23,10 @@ classDiagram
         getMessages()
         getCalendar()
         getTasks()
-        getNotifications()
-        setNotifications()
-
 
     }
     class Admin{
+        adminId
         setRole(userId,role)
         getAllUsers()
         assignATutorToAStudent(tutorUserId,studentgUserId)
@@ -42,21 +35,25 @@ classDiagram
     }
 
     class Tutor{
+        tutorId
         listAllMyStudent()
         createAnEvent()
         createATask()
-        setGoals() //TODO should it be defined at Task level?
+        setGoal() //TODO should it be defined at Goal level?
+        moveGoaldToNewEventId()
         numberOfStudent()
         isNotAcceptingMoreStudent()
 
 
     }
     class Student{
+        studentId
         getMessages()
         hasATutor()
     }
 
     class PersonalInformation{
+        personalInformationId
         firstName
         lastName
         phoneNumber
@@ -66,6 +63,7 @@ classDiagram
     }
 
     class Event{
+        eventId
         participants
         evantDate
         linkToVisio
@@ -79,10 +77,12 @@ classDiagram
     }
 
     class Calendar{
+        calendarId
         events
     }
 
     class Task {
+        taskId
         name
         ownerUserId
         assignedByUserId
@@ -93,7 +93,7 @@ classDiagram
 
     }
 
-    class Room {
+    class RoomMessage {
         roomId
         users
         getUsers()
@@ -109,5 +109,16 @@ classDiagram
         body
         isPinned()
         isUnread()
+    }
+
+    class Goal {
+        goalId
+        name
+        ownerUserId
+        goalSummary
+        status
+        getGoal()
+        setGoal() //TODO should it be define at tutor level ?
+
     }
 
